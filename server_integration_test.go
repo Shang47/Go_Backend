@@ -7,17 +7,42 @@ import (
 )
 
 func TestRecordingWinsAndRetrievingThem(t *testing.T) {
-	store := NewInMemoryPlayerStore()
-	server := PlayerServer{store}
-	player := "Pepper"
+	t.Run("test with in memory player store", func(t *testing.T) {
+		store := NewInMemoryPlayerStore()
+		server := PlayerServer{store}
+		player := "Pepper"
 
-	server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
-	server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
-	server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
+		server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
+		server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
+		server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
 
-	response := httptest.NewRecorder()
-	server.ServeHTTP(response, newGetScoreRequest(player))
-	assertStatus(t, response.Code, http.StatusOK)
+		response := httptest.NewRecorder()
+		server.ServeHTTP(response, newGetScoreRequest(player))
+		assertStatus(t, response.Code, http.StatusOK)
 
-	assertResponseBody(t, response.Body.String(), "3")
+		assertResponseBody(t, response.Body.String(), "3")
+	})
+	t.Run("test with player store in MariaDB", func(t *testing.T) {
+		store := NewMariaPlayerStore()
+		server := PlayerServer{store}
+		player := "Pepper"
+
+		server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
+
+		response := httptest.NewRecorder()
+		server.ServeHTTP(response, newGetScoreRequest(player))
+		assertStatus(t, response.Code, http.StatusOK)
+
+		assertResponseBody(t, response.Body.String(), "21")
+
+		// Test insert new player
+		player = "Steve"
+		server.ServeHTTP(httptest.NewRecorder(), newPostWinRequest(player))
+
+		response = httptest.NewRecorder()
+		server.ServeHTTP(response, newGetScoreRequest(player))
+		assertStatus(t, response.Code, http.StatusOK)
+
+		assertResponseBody(t, response.Body.String(), "1")
+	})
 }
