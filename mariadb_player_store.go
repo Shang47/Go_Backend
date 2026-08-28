@@ -79,3 +79,9 @@ func (m *MariaPlayerStore) RecordWin(name string) {
 		}
 	}
 }
+func (m *MariaPlayerStore) close() {
+	err := m.DBHandle.Close()
+	if err != nil {
+		log.Printf("Encounter error when trying to close DB: %v\n", err)
+	}
+}

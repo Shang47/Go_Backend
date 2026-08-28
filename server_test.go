@@ -19,6 +19,8 @@ func (s *StubPlayerStore) GetPlayerScore(name string) int {
 func (s *StubPlayerStore) RecordWin(name string) {
 	s.winCalls = append(s.winCalls, name)
 }
+func (s *StubPlayerStore) close() {}
+
 func TestGetPlayers(t *testing.T) {
 	store := StubPlayerStore{
 		map[string]int{
