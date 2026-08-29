@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	server := &PlayerServer{NewMariaPlayerStore()}
+	server := NewPlayerServer(NewMariaPlayerStore())
 	log.Fatal(http.ListenAndServe(":5000", server))
 	defer server.store.close()
 }
