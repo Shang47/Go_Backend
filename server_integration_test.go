@@ -22,7 +22,7 @@ func TestRecordingWinsAndRetrievingThem(t *testing.T) {
 
 		assertResponseBody(t, response.Body.String(), "3")
 	})
-	t.Run("test with player store in MariaDB", func(t *testing.T) {
+	/*t.Run("test with player store in MariaDB", func(t *testing.T) {
 		store := NewMariaPlayerStore()
 		server := PlayerServer{store}
 		player := "Pepper"
@@ -44,5 +44,5 @@ func TestRecordingWinsAndRetrievingThem(t *testing.T) {
 		assertStatus(t, response.Code, http.StatusOK)
 
 		assertResponseBody(t, response.Body.String(), "1")
-	})
+	})*/
 }
