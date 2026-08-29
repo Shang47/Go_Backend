@@ -79,6 +79,9 @@ func (m *MariaPlayerStore) RecordWin(name string) {
 		}
 	}
 }
+func (m *MariaPlayerStore) GetLeague() []Player {
+	return nil
+}
 func (m *MariaPlayerStore) close() {
 	err := m.DBHandle.Close()
 	if err != nil {
