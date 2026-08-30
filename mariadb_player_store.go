@@ -79,7 +79,7 @@ func (m *MariaPlayerStore) RecordWin(name string) {
 		}
 	}
 }
-func (m *MariaPlayerStore) GetLeague() []Player {
+func (m *MariaPlayerStore) GetLeague() League {
 	return nil
 }
 func (m *MariaPlayerStore) close() {
