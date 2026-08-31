@@ -13,6 +13,6 @@ func main() {
 
 	store := poker.NewMariaPlayerStore()
 
-	game := poker.CLI{store, os.Stdin}
+	game := poker.NewCLI(store, os.Stdin)
 	game.PlayPoker()
 }
