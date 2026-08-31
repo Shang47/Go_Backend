@@ -30,4 +30,3 @@ func (i *InMemoryPlayerStore) GetLeague() League {
 	}
 	return league
 }
-func (i *InMemoryPlayerStore) Close() {}
