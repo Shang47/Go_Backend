@@ -11,7 +11,7 @@ import (
 )
 
 func NewMariaPlayerStore() *MariaPlayerStore {
-	err := godotenv.Load()
+	err := godotenv.Load("../../.env")
 	if err != nil {
 		log.Println(".env file not found")
 	}
@@ -80,7 +80,25 @@ func (m *MariaPlayerStore) RecordWin(name string) {
 	}
 }
 func (m *MariaPlayerStore) GetLeague() League {
-	return nil
+	var l League
+
+	rows, err := m.DBHandle.Query("SELECT * FROM scores ORDER BY win DESC")
+	if err != nil {
+		log.Fatalf("Get league error: %v\n", err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var p Player
+		if err := rows.Scan(&p.Name, &p.Wins); err != nil {
+			log.Fatalf("Rows scan error %q: %v", p.Name, err)
+		}
+		l = append(l, p)
+	}
+	if err := rows.Err(); err != nil {
+		log.Fatalf("Rows error: %v", err)
+	}
+	return l
 }
 func (m *MariaPlayerStore) close() {
 	err := m.DBHandle.Close()
