@@ -10,10 +10,10 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func NewMariaPlayerStore() *MariaPlayerStore {
+func NewMariaPlayerStore() (*MariaPlayerStore, func(), error) {
 	err := godotenv.Load("../../.env")
 	if err != nil {
-		log.Println(".env file not found")
+		return nil, nil, fmt.Errorf(".env file not found")
 	}
 
 	// Capture connection properties.
@@ -28,16 +28,21 @@ func NewMariaPlayerStore() *MariaPlayerStore {
 	var db *sql.DB
 	db, err = sql.Open("mysql", cfg.FormatDSN())
 	if err != nil {
-		log.Fatal(err)
+		return nil, nil, fmt.Errorf("problem open connection to DB: %v", err)
 	}
 
 	pingErr := db.Ping()
 	if pingErr != nil {
-		log.Fatal(pingErr)
+		return nil, nil, fmt.Errorf("problem pinging the DB: %v", pingErr)
 	}
 	//fmt.Println("Connected")
 
-	return &MariaPlayerStore{db}
+	// Function to close DB connection.
+	closeFunc := func() {
+		db.Close()
+	}
+
+	return &MariaPlayerStore{db}, closeFunc, nil
 }
 
 type score struct {
