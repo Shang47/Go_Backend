@@ -18,30 +18,30 @@ func TestGetPlayers(t *testing.T) {
 	server := NewPlayerServer(&store)
 
 	t.Run("returns Pepper's score", func(t *testing.T) {
-		request := newGetScoreRequest("Pepper")
+		request := NewGetScoreRequest("Pepper")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		assertStatus(t, response.Code, http.StatusOK)
-		assertResponseBody(t, response.Body.String(), "20")
+		AssertStatus(t, response.Code, http.StatusOK)
+		AssertResponseBody(t, response.Body.String(), "20")
 	})
 	t.Run("returns Floyd's score", func(t *testing.T) {
-		request := newGetScoreRequest("Floyd")
+		request := NewGetScoreRequest("Floyd")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		assertStatus(t, response.Code, http.StatusOK)
-		assertResponseBody(t, response.Body.String(), "10")
+		AssertStatus(t, response.Code, http.StatusOK)
+		AssertResponseBody(t, response.Body.String(), "10")
 	})
 	t.Run("returns 404 on missing players", func(t *testing.T) {
-		request := newGetScoreRequest("Apollo")
+		request := NewGetScoreRequest("Apollo")
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		assertStatus(t, response.Code, http.StatusNotFound)
+		AssertStatus(t, response.Code, http.StatusNotFound)
 	})
 }
 func TestStoreWins(t *testing.T) {
@@ -55,14 +55,14 @@ func TestStoreWins(t *testing.T) {
 	t.Run("it records wins on POST", func(t *testing.T) {
 		player := "Pepper"
 
-		request := newPostWinRequest(player)
+		request := NewPostWinRequest(player)
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		assertStatus(t, response.Code, http.StatusAccepted)
+		AssertStatus(t, response.Code, http.StatusAccepted)
 
-		assertPlayerWin(t, &store, player)
+		AssertPlayerWin(t, &store, player)
 	})
 }
 
@@ -78,15 +78,15 @@ func TestLeague(t *testing.T) {
 		store := StubPlayerStore{nil, nil, wantedLeague}
 		server := NewPlayerServer(&store)
 
-		request := newLeagueRequest()
+		request := NewLeagueRequest()
 		response := httptest.NewRecorder()
 
 		server.ServeHTTP(response, request)
 
-		got := getLeagueFromResponse(t, response.Body)
-		assertStatus(t, response.Code, http.StatusOK)
-		assertLeague(t, got, wantedLeague)
+		got := GetLeagueFromResponse(t, response.Body)
+		AssertStatus(t, response.Code, http.StatusOK)
+		AssertLeague(t, got, wantedLeague)
 
-		assertContentType(t, response, jsonContentType)
+		AssertContentType(t, response, jsonContentType)
 	})
 }

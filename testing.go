@@ -26,7 +26,7 @@ func (s *StubPlayerStore) GetLeague() League {
 	return s.league
 }
 func (s *StubPlayerStore) close() {}
-func assertPlayerWin(t testing.TB, store *StubPlayerStore, winner string) {
+func AssertPlayerWin(t testing.TB, store *StubPlayerStore, winner string) {
 	t.Helper()
 
 	if len(store.winCalls) != 1 {
@@ -37,17 +37,17 @@ func assertPlayerWin(t testing.TB, store *StubPlayerStore, winner string) {
 		t.Errorf("did not store correct winner got %q want %q", store.winCalls[0], winner)
 	}
 }
-func assertContentType(t testing.TB, response *httptest.ResponseRecorder, want string) {
+func AssertContentType(t testing.TB, response *httptest.ResponseRecorder, want string) {
 	t.Helper()
 	if response.Result().Header.Get("content-type") != want {
 		t.Errorf("response did not have content-type of %s, got %v", want, response.Result().Header)
 	}
 }
-func newLeagueRequest() *http.Request {
+func NewLeagueRequest() *http.Request {
 	req, _ := http.NewRequest(http.MethodGet, "/league", nil)
 	return req
 }
-func getLeagueFromResponse(t testing.TB, body io.Reader) (league []Player) {
+func GetLeagueFromResponse(t testing.TB, body io.Reader) (league []Player) {
 	t.Helper()
 	league, err := NewLeague(body)
 
@@ -57,27 +57,27 @@ func getLeagueFromResponse(t testing.TB, body io.Reader) (league []Player) {
 
 	return
 }
-func assertLeague(t testing.TB, got, want []Player) {
+func AssertLeague(t testing.TB, got, want []Player) {
 	t.Helper()
 	if !reflect.DeepEqual(got, want) {
 		t.Errorf("got %v want %v", got, want)
 	}
 }
-func newPostWinRequest(name string) *http.Request {
+func NewPostWinRequest(name string) *http.Request {
 	req, _ := http.NewRequest(http.MethodPost, fmt.Sprintf("/players/%s", name), nil)
 	return req
 }
-func assertStatus(t testing.TB, got, want int) {
+func AssertStatus(t testing.TB, got, want int) {
 	t.Helper()
 	if got != want {
 		t.Errorf("did not get correct status, got %d, want %d", got, want)
 	}
 }
-func newGetScoreRequest(name string) *http.Request {
+func NewGetScoreRequest(name string) *http.Request {
 	req, _ := http.NewRequest(http.MethodGet, fmt.Sprintf("/players/%s", name), nil)
 	return req
 }
-func assertResponseBody(t testing.TB, got, want string) {
+func AssertResponseBody(t testing.TB, got, want string) {
 	t.Helper()
 
 	if got != want {
