@@ -100,7 +100,7 @@ func (m *MariaPlayerStore) GetLeague() League {
 	}
 	return l
 }
-func (m *MariaPlayerStore) close() {
+func (m *MariaPlayerStore) Close() {
 	err := m.DBHandle.Close()
 	if err != nil {
 		log.Printf("Encounter error when trying to close DB: %v\n", err)
