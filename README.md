@@ -61,7 +61,29 @@ The application separates the HTTP layer, application logic, and persistence lay
 ```
 
 ## Running the Application
-1. Install MariaDB or MySQL and setup the database and table. Store DB configuration in .env in project root
+1. Install MariaDB or MySQL and setup the database. 
+In the data-access folder, create a file called create-tables.sql to hold SQL script for adding tables.
+
+```sql
+CREATE TABLE scores (
+  name      VARCHAR(50) NOT NULL,
+  win       int(11),
+  PRIMARY KEY (`name`)
+);
+
+INSERT INTO scores
+  (name, win)
+VALUES
+  ('Ruth', 10),
+  ('David', 7),
+  ('Alice', 3);
+```
+
+From the  MariaDB(MySQL) command prompt, run the script.
+```bash
+MariaDB> source /path/to/create-tables.sql
+```
+Store DB configuration in .env in project root
 
 2. Build the executables
 ```bash
