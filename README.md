@@ -23,7 +23,6 @@ It exposes a REST-style HTTP API and supports persistent storage using MariaDB.
 - Dependency injection
 - Integration testing
 - Unit testing
-- Multiple executable applications sharing the same business logic
 
 ---
 
@@ -62,15 +61,15 @@ The application separates the HTTP layer, application logic, and persistence lay
 ```
 
 ## Running the Application
-Store DB configuration in .env in project root
+1. Install MariaDB or MySQL and setup the database and table. Store DB configuration in .env in project root
 
-Build the executables
+2. Build the executables
 ```bash
 (windows)
 go build .\cmd\webserver\ .\cmd\webserver
 go build .\cmd\cli .\cmd\cli
 ```
-Start the HTTP server:
+3. Start the HTTP server:
 ```bash
 (windows)
 cd cmd\webserver
@@ -90,7 +89,7 @@ http://localhost:5000
 | GET    | /league  |Retrieve all players sorted by wins|
 
 ## API Usage
-:::spoiler Details
+
 ### Get Player Score
 ```http
 GET /players/{name}
@@ -114,6 +113,7 @@ POST /players/{name}
 curl -X POST http://localhost:5000/players/Ruth
 ```
 Each request increments the player's win count by one. If the player is new, a new player record will be created.
+
 **For example**
 ```text
 Before:
@@ -153,4 +153,3 @@ curl http://localhost:5000/league
 ]
 ```
 Players are sorted by their number of wins.
-::: 
