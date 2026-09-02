@@ -24,6 +24,13 @@ It exposes a REST-style HTTP API and supports persistent storage using MariaDB.
 - Integration testing
 - Unit testing
 
+### Technology Stack
+- HTTP Server: "net/http" library
+- API: REST-style API
+- Database: MariaDB
+- Testing: "testing" library
+- HTTP Testing: "net/http/httptest" library
+- CLI application: Golang
 ---
 
 ## Architecture
