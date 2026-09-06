@@ -108,7 +108,7 @@ func TestCLI(t *testing.T) {
 
 		gotPrompt := stdout.String()
 
-		wantPrompt := poker.PlayerPrompt + "you're so silly"
+		wantPrompt := poker.PlayerPrompt + poker.BadPlayerInputErrMsg
 
 		if gotPrompt != wantPrompt {
 			t.Errorf("got %q, want %q", gotPrompt, wantPrompt)
@@ -159,6 +159,14 @@ func TestGame_Finish(t *testing.T) {
 
 	game.Finish(winner)
 	poker.AssertPlayerWin(t, store, winner)
+}
+func assertMessagesSentToUser(t testing.TB, stdout *bytes.Buffer, messages ...string) {
+	t.Helper()
+	want := strings.Join(messages, "")
+	got := stdout.String()
+	if got != want {
+		t.Errorf("got %q sent to stdout but expected %+v", got, messages)
+	}
 }
 func checkSchedulingCases(cases []scheduledAlert, t *testing.T, alerter *SpyBlindAlerter) {
 	for i, want := range cases {
