@@ -2,7 +2,6 @@ package poker
 
 import (
 	"fmt"
-	"io"
 	"time"
 )
 
@@ -20,10 +19,20 @@ func (a BlindAlerterFunc) ScheduleAlertAt(duration time.Duration, amount int) {
 }
 
 // StdOutAlerter returns a BlindAlerterFunc that schedules alerts and prints them to out.
-func StdOutAlerter(out io.Writer) BlindAlerterFunc {
+/*func StdOutAlerter(out io.Writer) BlindAlerterFunc {
 	return func(duration time.Duration, amount int) {
 		time.AfterFunc(duration, func() {
 			fmt.Fprintf(out, "Blind is now %d", amount)
 		})
 	}
+}*/
+func NewAlerter() (BlindAlerterFunc, <-chan string) {
+	alerts := make(chan string)
+
+	scheduleAlertAt := func(duration time.Duration, amount int) {
+		time.AfterFunc(duration, func() {
+			alerts <- fmt.Sprintf("Blind is now %d", amount)
+		})
+	}
+	return scheduleAlertAt, alerts
 }

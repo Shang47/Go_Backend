@@ -1,25 +1,27 @@
 package poker
 
 import (
-	"bytes"
 	"testing"
 	"testing/synctest"
 	"time"
 )
 
-func TestStdOutAlerter(t *testing.T) {
+func TestNewAlerter(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
-		out := &bytes.Buffer{}
-		alerter := StdOutAlerter(out)
+		alerter, alerts := NewAlerter()
 
 		alerter.ScheduleAlertAt(5*time.Second, 100)
 
-		time.Sleep(6 * time.Second)
-		synctest.Wait()
+		select {
+		case got := <-alerts:
+			t.Fatalf("did not expect an alert yet, got %q", got)
+		default:
+		}
 
+		got := <-alerts
 		want := "Blind is now 100"
-		if out.String() != want {
-			t.Errorf("got %q, ant %q", out.String(), want)
+		if got != want {
+			t.Errorf("got %q, ant %q", got, want)
 		}
 	})
 }
