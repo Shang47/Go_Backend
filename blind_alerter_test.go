@@ -1,6 +1,7 @@
 package poker
 
 import (
+	"os"
 	"testing"
 	"testing/synctest"
 	"time"
@@ -10,7 +11,7 @@ func TestNewAlerter(t *testing.T) {
 	synctest.Test(t, func(t *testing.T) {
 		alerter, alerts := NewAlerter()
 
-		alerter.ScheduleAlertAt(5*time.Second, 100)
+		alerter.ScheduleAlertAt(5*time.Second, 100, os.Stdout)
 
 		select {
 		case got := <-alerts:

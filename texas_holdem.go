@@ -1,6 +1,7 @@
 package poker
 
 import (
+	"os"
 	"time"
 )
 
@@ -23,7 +24,7 @@ func (p *TexasHoldem) Start(numberOfPlayers int) {
 	blindTime := 0 * time.Second
 
 	for _, blind := range blinds {
-		p.alerter.ScheduleAlertAt(blindTime, blind)
+		p.alerter.ScheduleAlertAt(blindTime, blind, os.Stdout)
 		blindTime = blindTime + blindIncrement
 	}
 }
