@@ -1,38 +1,40 @@
-package poker
+package poker_test
 
 import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+
+	poker "github.com/Shang47/simple-web-server"
 )
 
 func TestRecordingWinsAndRetrievingThem(t *testing.T) {
 	//t.Run("test with in memory player store", func(t *testing.T) {
-	store := NewInMemoryPlayerStore()
+	store := poker.NewInMemoryPlayerStore()
 	server := mustMakePlayerServer(t, store)
 	player := "Pepper"
 
-	server.ServeHTTP(httptest.NewRecorder(), NewPostWinRequest(player))
-	server.ServeHTTP(httptest.NewRecorder(), NewPostWinRequest(player))
-	server.ServeHTTP(httptest.NewRecorder(), NewPostWinRequest(player))
+	server.ServeHTTP(httptest.NewRecorder(), poker.NewPostWinRequest(player))
+	server.ServeHTTP(httptest.NewRecorder(), poker.NewPostWinRequest(player))
+	server.ServeHTTP(httptest.NewRecorder(), poker.NewPostWinRequest(player))
 
 	t.Run("get score", func(t *testing.T) {
 		response := httptest.NewRecorder()
-		server.ServeHTTP(response, NewGetScoreRequest(player))
-		AssertStatus(t, response.Code, http.StatusOK)
+		server.ServeHTTP(response, poker.NewGetScoreRequest(player))
+		poker.AssertStatus(t, response.Code, http.StatusOK)
 
-		AssertResponseBody(t, response.Body.String(), "3")
+		poker.AssertResponseBody(t, response.Body.String(), "3")
 	})
 	t.Run("get league", func(t *testing.T) {
 		response := httptest.NewRecorder()
-		server.ServeHTTP(response, NewLeagueRequest())
-		AssertStatus(t, response.Code, http.StatusOK)
+		server.ServeHTTP(response, poker.NewLeagueRequest())
+		poker.AssertStatus(t, response.Code, http.StatusOK)
 
-		got := GetLeagueFromResponse(t, response.Body)
-		want := []Player{
+		got := poker.GetLeagueFromResponse(t, response.Body)
+		want := []poker.Player{
 			{"Pepper", 3},
 		}
-		AssertLeague(t, got, want)
+		poker.AssertLeague(t, got, want)
 	})
 	//})
 	/*t.Run("test with player store in MariaDB", func(t *testing.T) {
