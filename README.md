@@ -1,3 +1,56 @@
+# 撲克牌比賽計分系統
+
+## 專案簡介
+一套可用於紀錄撲克牌比賽勝負的系統，提供網頁及命令列程式方便使用者操作。
+
+## 專案技術
+- HTTP Server："net/http" library
+- API：REST-style API
+- 資料庫：MariaDB
+- 單元測試："testing" library
+- 命令列應用程式：Golang
+
+## 系統架構
+
+
+```text
+                     HTTP Client       CLI Application 
+                         │                 │   
+                         ▼                 │
+                ┌─────────────────┐        │
+                │   HTTP Server   │        │
+                │                 │        │
+                │  Routing        │        │
+                │  HTTP Handlers  │        │
+                │  JSON Encoding  │        │
+                └────────┬────────┘        │
+                         │                 │
+                         ▼                 │
+                ┌─────────────────┐        │
+                │   PlayerStore   │        │
+                │    Interface    │        │
+                └────────┬────────┘        │
+                         │                 │
+              ┌──────────┴──────────┐      │
+              │                     │      │
+              ▼                     ▼      ▼
+     ┌─────────────────┐   ┌─────────────────────┐
+     │ In-Memory Store │   │ Database Store      │
+     │                 │   │                     │
+     │ Used for tests  │   │     MariaDB         │
+     └─────────────────┘   └─────────────────────┘
+                        
+                         
+```
+## 系統功能
+
+- 開啟新一局遊戲
+- 取得玩家目前得分
+- 增加玩家得分
+- 新增玩家
+- 取得所有玩家排名
+
+---
 # Go Poker League Backend
 A backend application built with **Go** for managing poker player scores and league rankings.
 
@@ -116,6 +169,8 @@ http://localhost:5000
 | GET    | /players/{name}  |Retrieve a player's total wins|
 | POST   | /players/{name}  |Record one additional win|
 | GET    | /league  |Retrieve all players sorted by wins|
+| GET    | /game            |Start a new game|
+|        |/ws               |Accept new websocket connection|
 
 ## API Usage
 
