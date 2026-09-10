@@ -2,31 +2,33 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Let's play poker</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     </head>
     
     <body>
         <section id="game">
-            <div id="game-start">
-                <label for="player-count">Number of players</label>
-                <input type="number" id="player-count"/>
-                <button id="start-game">Start</button>
+            <div class="mb-3" id="game-start">
+                <label for="player-count" class="form-label">Number of players</label>
+                <input type="number" class="form-control" id="player-count"/>
+                <button id="start-game" class="btn btn-primary">Start</button>
             </div>
 
-            <div id="declare-winner">
-                <label for="winner">Winner</label>
-                <input type="text" id="winner"/>
-                <button id="winner-button">Declare winner</button>
+            <div class="mb-3" id="declare-winner">
+                <label for="winner" class="form-label">Winner</label>
+                <input type="text" class="form-control" id="winner"/>
+                <button id="winner-button" class="btn btn-primary">Declare winner</button>
             </div>
 
             <div id="blind-value"/>
         </section>
 
-        <section id="game-end">
+        <section class="mb-3" id="game-end">
             <h1>Another great game of poker everyone!</h1>
             <p><a href="/league">Go check the league table</a></p>
         </section>
-
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     </body>
     <script type="application/javascript">
         const startGame = document.getElementById('game-start')
