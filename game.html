@@ -3,76 +3,195 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
         <title>Let's play poker</title>
+        
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     </head>
     
-    <body>
-        <section id="game">
-            <div class="mb-3" id="game-start">
-                <label for="player-count" class="form-label">Number of players</label>
-                <input type="number" class="form-control" id="player-count"/>
-                <button id="start-game" class="btn btn-primary">Start</button>
-            </div>
+    <body class="bg-light">
 
-            <div class="mb-3" id="declare-winner">
-                <label for="winner" class="form-label">Winner</label>
-                <input type="text" class="form-control" id="winner"/>
-                <button id="winner-button" class="btn btn-primary">Declare winner</button>
-            </div>
+        <main class="container py-5">
 
-            <div id="blind-value"/>
-        </section>
+            <!-- Game -->
+            <section id="game" class="row justify-content-center">
+                <div class="col-12 col-md-8 col-lg-6">
+                    
+                    <div class="card shadow-sm border-0">
 
-        <section class="mb-3" id="game-end">
-            <h1>Another great game of poker everyone!</h1>
-            <p><a href="/league">Go check the league table</a></p>
-        </section>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
-    </body>
-    <script type="application/javascript">
-        const startGame = document.getElementById('game-start')
+                        <div class="card-body p-4 p-md-5">
 
-        const declareWinner = document.getElementById('declare-winner')
-        const submitWinnerButton = document.getElementById('winner-button')
-        const winnerInput = document.getElementById('winner')
+                            <!-- Title -->
+                            <div class="text-center mb-4">
+                                <h1 class="fw-bold">♠ Let's Play Poker ♥</h1>
+                                <p class="text-muted mb-0">
+                                    Start a new game and see who takes the win.
+                                </p>
+                            </div>
 
-        const blindContainer = document.getElementById('blind-value')
+                            <!-- Start Game -->
+                            <div id="game-start">
 
-        const gameContainer = document.getElementById('game')
-        const gameEndContainer = document.getElementById('game-end')
+                                <div class="mb-4">
+                                <label for="player-count" class="form-label fw-semibold">
+                                    Number of Players
+                                </label>
 
-        declareWinner.hidden = true
-        gameEndContainer.hidden = true
+                                <input type="number" class="form-control form-control-lg" id="player-count" min="2" placeholder="Enter number of players">
+                                <div class="form-text">
+                                    At least 2 players are required.
+                                </div>
+                            </div>
 
-        document.getElementById('start-game').addEventListener('click', event => {
-            startGame.hidden = true
-            declareWinner.hidden = false
+                            <div class="d-grid">
+                                <button id="start-game" class="btn btn-primary btn-lg">
+                                    Start Game
+                                </button>
+                            </div>
 
-            const numberOfPlayers = document.getElementById('player-count').value
+                        </div>
 
-            if (window['WebSocket']) {
-                const conn = new WebSocket('ws://' + document.location.host + '/ws')
+                        <!-- Declare Winner -->
+                        <div id="declare-winner">
 
-                submitWinnerButton.onclick = event => {
-                    conn.send(winnerInput.value)
-                    gameEndContainer.hidden = false
-                    gameContainer.hidden = true
-                }
+                            <div class="mb-4">
 
-                conn.onclose = evt => {
-                    blindContainer.innerText = 'Connection closed'
-                }
+                                <label for="winner" class="form-label fw-semibold">
+                                    Winner
+                                </label>
 
-                conn.onmessage = evt => {
-                    blindContainer.innerText = evt.data
-                }
+                                <input type="text" class="form-control form-control-lg" id="winner" placeholder="Enter the winner's name">
 
-                conn.onopen = function () {
-                    conn.send(numberOfPlayers)
-                }
-            }
-        })
+                            </div>
+
+                            <div class="d-grid">
+                                <button id="winner-button" class="btn btn-success btn-lg">
+                                    Declare Winner
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <!-- Blind Value / Game Status -->
+                        <div id="blind-value" class="alert alert-info text-center mt-4 mb-0" role="alert">
+                            Waiting for game to start...
+                        </div>
+
+                    </div>
+
+                </div>
+            </section>
+
+            <!-- Game End -->
+            <section id="game-end" class="row justify-content-center mt-4">
+
+                <div class="col-12 col-md-8 col-lg-6">
+
+                    <div class="card border-0 shadow-sm text-center">
+
+                        <div class="card-body p-5">
+
+                            <div class="display-4 mb-3">
+                                🏆
+                            </div>
+
+                            <h2 class="fw-bold">
+                                Another Great Game!
+                            </h2>
+
+                            <p class="text-muted">
+                                Thanks everyone for playing poker.
+                            </p>
+
+                            <a href="/league" class="btn btn-outline-primary btn-lg">
+                                View League Table
+                            </a>
+
+                        </div>
+                    
+                    </div>
+                
+                </div>
+
+            </section>
         
-    </script>
+        </main>
+
+<!--                <div class="mb-3" id="game-start">
+                    <label for="player-count" class="form-label">Number of players</label>
+                    <input type="number" class="form-control" id="player-count"/>
+                    <button id="start-game" class="btn btn-primary">Start</button>
+                </div>
+
+                <div class="mb-3" id="declare-winner">
+                    <label for="winner" class="form-label">Winner</label>
+                    <input type="text" class="form-control" id="winner"/>
+                    <button id="winner-button" class="btn btn-primary">Declare winner</button>
+                </div>
+
+                <div id="blind-value"/>
+            </section>
+
+            <section class="mb-3" id="game-end">
+                <h1>Another great game of poker everyone!</h1>
+                <p><a href="/league">Go check the league table</a></p>
+            </section>
+        </main>
+-->
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+
+        <script type="application/javascript">
+            const startGame = document.getElementById('game-start');
+
+            const declareWinner = document.getElementById('declare-winner');
+            const submitWinnerButton = document.getElementById('winner-button');
+            const winnerInput = document.getElementById('winner');
+
+            const blindContainer = document.getElementById('blind-value');
+
+            const gameContainer = document.getElementById('game');
+            const gameEndContainer = document.getElementById('game-end');
+
+            // Initial state
+            declareWinner.hidden = true;
+            gameEndContainer.hidden = true;
+
+            document.getElementById('start-game').addEventListener('click', event => {
+                startGame.hidden = true;
+                declareWinner.hidden = false;
+
+                const numberOfPlayers = document.getElementById('player-count').value;
+
+                if (window['WebSocket']) {
+                    const conn = new WebSocket('ws://' + document.location.host + '/ws');
+
+                    submitWinnerButton.onclick = event => {
+                        conn.send(winnerInput.value);
+
+                        gameEndContainer.hidden = false;
+                        gameContainer.hidden = true;
+                    }
+
+                    conn.onclose = evt => {
+                        blindContainer.className = 'alert alert-danger text-center mt-4 mb-0';
+                        blindContainer.innerText = 'Connection closed';
+                    }
+
+                    conn.onmessage = evt => {
+                        blindContainer.className = 'alert alert-info text-center mt-4 mb-0';
+                        blindContainer.innerText = evt.data;
+                    }
+
+                    conn.onopen = function () {
+                        blindContainer.className = 'alert alert-success text-center mt-4 mb-0';
+                        blindContainer.innerText = 'Game connected. Waiting for blinds...';
+
+                        conn.send(numberOfPlayers)
+                    }
+                }
+            })   
+        </script>
+
+    </body>
 </html>
